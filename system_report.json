@@ -1,0 +1,11 @@
+{
+  "timestamp": "2025-09-05T10:26:07.102139",
+  "system": {
+    "platform": "Windows-10-10.0.19045-SP0",
+    "python_version": "3.10.18",
+    "architecture": "64bit"
+  },
+  "cuda": {
+    "available": false
+  }
+}

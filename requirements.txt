@@ -1,0 +1,43 @@
+# Core ML and Computer Vision
+ultralytics
+opencv-python
+torch
+torchvision
+numpy
+scipy
+roboflow
+
+# Video processing
+ffmpeg-python
+
+# Data processing and utilities
+pandas
+tqdm
+scikit-learn
+
+# Embeddings and tracking
+torchreid
+gdown
+protobuf
+ninja
+cython-bbox
+
+# Configuration management
+pyyaml
+
+# Logging and monitoring
+loguru
+
+# Testing (development)
+pytest
+pytest-cov
+
+# Type hints
+typing-extensions
+tensorboard
+
+seaborn
+shapely
+timm
+torchvision>=0.10.0
+torch>=1.7

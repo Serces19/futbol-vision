@@ -1,0 +1,67 @@
+# Football Analytics MVP Configuration
+
+processing:
+  confidence_threshold: 0.4
+  nms_threshold: 0.4
+  device: "cuda"  # or "cpu"
+  n_teams: 2
+  embedding_model: "osnet"
+  enable_field_calibration: true
+  calibration_confidence_threshold: 0.7
+  enable_2d_visualization: true
+  enable_trajectory_visualization: true
+  output_fps: 30
+  max_tracking_objects: 50
+  trajectory_history_length: 100
+
+field_dimensions:
+  length: 105.0  # meters
+  width: 68.0    # meters
+  goal_width: 7.32
+  goal_height: 2.44
+  goal_area_length: 5.5
+  goal_area_width: 18.32
+  penalty_area_length: 16.5
+  penalty_area_width: 40.32
+  center_circle_radius: 9.15
+  penalty_spot_distance: 11.0
+  corner_arc_radius: 1.0
+
+model_paths:
+  yolo_player_model: "models/yolov8m-football.pt"
+  yolo_ball_model: "models/yolov8m-football.pt"
+  field_lines_model: "models/SV_FT_WC14_lines"
+  field_keypoints_model: "SV_FT_WC14_kp"
+  embedding_model_path: null
+
+tracker:
+  track_thresh: 0.5
+  track_buffer: 30
+  match_thresh: 0.8
+  frame_rate: 30
+
+visualization:
+  team_colors:
+    0: [255, 0, 0]    # Blue (BGR)
+    1: [0, 0, 255]    # Red (BGR)
+    2: [0, 255, 0]    # Green (BGR)
+    3: [255, 255, 0]  # Cyan (BGR)
+  ball_color: [0, 255, 255]  # Yellow (BGR)
+  line_color: [255, 255, 255]  # White (BGR)
+  bbox_thickness: 2
+  trajectory_thickness: 2
+  text_font_scale: 0.6
+  text_thickness: 2
+  map_width: 800
+  map_height: 600
+  map_background_color: [34, 139, 34]  # Forest Green (BGR)
+
+export:
+  output_directory: "output"
+  export_json: true
+  export_csv: true
+  export_video: true
+  export_heatmaps: true
+  json_filename: "analytics_data.json"
+  csv_filename: "player_stats.csv"
+  video_filename: "processed_video.mp4"
