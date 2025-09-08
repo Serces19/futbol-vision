@@ -42,3 +42,4 @@ timm
 torchvision>=0.10.0
 torch>=1.7
 requests
+gdown
