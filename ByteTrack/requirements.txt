@@ -17,6 +17,6 @@ filterpy
 h5py
 
 # verified versions
-onnx>=1.14.0,<1.21
-onnxruntime>=1.14.0,<1.21
-onnx-simplifier==0.3.5
+# onnx>=1.14.0,<1.21
+# onnxruntime>=1.14.0,<1.21
+# onnx-simplifier==0.3.5

@@ -226,25 +226,25 @@ def download_and_extract_gdown(url_or_id, dest_folder):
     dest_folder = Path(dest_folder)
 
     if dest_folder.exists():
-        print(f"✔ Carpeta '{dest_folder}' ya existe, no se descarga.")
+        logger.info(f"✔ Carpeta '{dest_folder}' ya existe, no se descarga.")
         return
 
     # Si es un folder_id de Google Drive
     if "drive.google.com/drive/folders/" in url_or_id or len(url_or_id) == 33:
-        print(f"📥 Descargando carpeta '{dest_folder}' desde Google Drive...")
+        logger.info(f"📥 Descargando carpeta '{dest_folder}' desde Google Drive...")
         gdown.download_folder(url_or_id, quiet=False, use_cookies=False)
-        print(f"✅ Carpeta '{dest_folder}' descargada.")
+        logger.info(f"✅ Carpeta '{dest_folder}' descargada.")
     else:
         # Asumimos que es un archivo ZIP
         zip_path = f"{dest_folder}.zip"
-        print(f"📥 Descargando ZIP para '{dest_folder}'...")
+        logger.info(f"📥 Descargando ZIP para '{dest_folder}'...")
         gdown.download(url_or_id, zip_path, quiet=False)
 
-        print(f"📂 Extrayendo en '{dest_folder}'...")
+        logger.info(f"📂 Extrayendo en '{dest_folder}'...")
         with zipfile.ZipFile(zip_path, 'r') as zip_ref:
             zip_ref.extractall(dest_folder)
         os.remove(zip_path)
-        print(f"✅ '{dest_folder}' listo.")
+        logger.info(f"✅ '{dest_folder}' listo.")
 
 
 # --- Función Principal --- 
@@ -344,15 +344,15 @@ def main():
 
                 out_anotado.write(dibujar_anotaciones(frame.copy(), tracked_objects, ball_pos, calibration_state))
                 #out_debug.write(dibujar_debug_lineas(frame.copy(), calibration_state))
-                out_debug.write(projected_frame)
+                #out_debug.write(projected_frame)
                 out_tactico.write(dibujar_mapa_tactico(tracked_objects, calibration_state, frame_count))
 
             except Exception as e:
                 logger.error(f"❌ Error en frame {frame_count}: {e}", exc_info=True)
             
             frame_count += 1
-            cv2.imshow("Video Anotado", dibujar_anotaciones(frame.copy(), tracked_objects, ball_pos, calibration_state))
-            cv2.imshow("Video Anotado", dibujar_mapa_tactico(tracked_objects, calibration_state, frame_count))
+            #cv2.imshow("Video Anotado", dibujar_anotaciones(frame.copy(), tracked_objects, ball_pos, calibration_state))
+            #cv2.imshow("Video Anotado", dibujar_mapa_tactico(tracked_objects, calibration_state, frame_count))
             if cv2.waitKey(1) & 0xFF == ord('q'): break
         
         cv2.destroyAllWindows()
