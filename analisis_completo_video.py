@@ -17,6 +17,11 @@ import cv2
 import numpy as np
 import torch
 import yaml
+import os
+import zipfile
+import gdown
+from pathlib import Path
+
 
 # Configurar un logger más detallado para debug
 log_level = logging.DEBUG # Cambiar a logging.INFO para menos detalle
@@ -211,10 +216,51 @@ def dibujar_mapa_tactico(tracked_objects, calibration_state, frame_count, map_wi
     cv2.putText(field_map, info, (10, map_height - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.6, (255, 255, 255), 2)
     return field_map
 
-# --- Función Principal ---
 
-def main():
+
+def download_and_extract_gdown(url_or_id, dest_folder):
+    """
+    Descarga un archivo o carpeta desde Google Drive usando gdown.
+    Si es un ZIP, lo extrae en dest_folder.
+    """
+    dest_folder = Path(dest_folder)
+
+    if dest_folder.exists():
+        print(f"✔ Carpeta '{dest_folder}' ya existe, no se descarga.")
+        return
+
+    # Si es un folder_id de Google Drive
+    if "drive.google.com/drive/folders/" in url_or_id or len(url_or_id) == 33:
+        print(f"📥 Descargando carpeta '{dest_folder}' desde Google Drive...")
+        gdown.download_folder(url_or_id, quiet=False, use_cookies=False)
+        print(f"✅ Carpeta '{dest_folder}' descargada.")
+    else:
+        # Asumimos que es un archivo ZIP
+        zip_path = f"{dest_folder}.zip"
+        print(f"📥 Descargando ZIP para '{dest_folder}'...")
+        gdown.download(url_or_id, zip_path, quiet=False)
+
+        print(f"📂 Extrayendo en '{dest_folder}'...")
+        with zipfile.ZipFile(zip_path, 'r') as zip_ref:
+            zip_ref.extractall(dest_folder)
+        os.remove(zip_path)
+        print(f"✅ '{dest_folder}' listo.")
+
+
+# --- Función Principal --- 
+def main():  
     logger.info("🏈 ANÁLISIS COMPLETO DE VIDEO DE FÚTBOL")
+
+    # URLs de descarga directa (cámbialas por las reales)
+    assets = {
+        "models": "https://drive.google.com/drive/folders/1cf-s7wo5tqZpqYPOUz8WiCYKLFQVV02I?usp=drive_link",
+        "dataset_curado": "https://drive.google.com/drive/folders/1P97BtCxcnrVARL3Z-yJH6MV5ihxp4B6T?usp=drive_link"
+    }
+
+    for folder, url in assets.items():
+        download_and_extract_gdown(url, folder)
+
+
     video_path = "./dataset_curado/video3.mp4"
     if not Path(video_path).exists():
         logger.error(f"❌ Video no encontrado: {video_path}"); return
@@ -244,6 +290,7 @@ def main():
         cap = cv2.VideoCapture(video_path)
         fps, w, h = cap.get(cv2.CAP_PROP_FPS), int(cap.get(cv2.CAP_PROP_FRAME_WIDTH)), int(cap.get(cv2.CAP_PROP_FRAME_HEIGHT))
         
+        os.makedirs("./output", exist_ok=True)
         out_anotado = cv2.VideoWriter("./output/video_anotado.mp4", cv2.VideoWriter_fourcc(*'mp4v'), fps, (w, h))
         out_debug = cv2.VideoWriter("./output/video_debug_lineas.mp4", cv2.VideoWriter_fourcc(*'mp4v'), fps, (w, h))
         out_tactico = cv2.VideoWriter("./output/video_mapa_tactico.mp4", cv2.VideoWriter_fourcc(*'mp4v'), fps, (800, 600))

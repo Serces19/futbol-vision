@@ -6,7 +6,7 @@ Este proyecto presenta una solución avanzada de visión por computadora para au
 
 En el fútbol moderno, el análisis táctico y el rendimiento de los jugadores son campos de estudio que dependen en gran medida de datos precisos. La obtención manual de estos datos es un proceso costoso y, a menudo, inviable. Nuestro sistema aborda este problema al transformar el metraje de video en datos estructurados y cuantificables, lo que permite a entrenadores, analistas y científicos de datos obtener información valiosa para la toma de decisiones.
 
-## ✨ Características Principales
+## Características Principales
 
 * **Detección de Objetos:** Utiliza un modelo **YOLOv8** ajustado para identificar con precisión a jugadores, porteros, árbitros y el balón.
 * **Tracking de Jugadores:** Implementa el algoritmo **ByteTrack** para seguir de forma individual y consistente a cada jugador a lo largo del video.
