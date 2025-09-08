@@ -353,9 +353,9 @@ def main():
             frame_count += 1
             #cv2.imshow("Video Anotado", dibujar_anotaciones(frame.copy(), tracked_objects, ball_pos, calibration_state))
             #cv2.imshow("Video Anotado", dibujar_mapa_tactico(tracked_objects, calibration_state, frame_count))
-            if cv2.waitKey(1) & 0xFF == ord('q'): break
+            #if cv2.waitKey(1) & 0xFF == ord('q'): break
         
-        cv2.destroyAllWindows()
+        #cv2.destroyAllWindows()
         cap.release()
         [o.release() for o in [out_anotado, out_debug, out_tactico]]
         logger.info("🎉 ANÁLISIS TERMINADO")
